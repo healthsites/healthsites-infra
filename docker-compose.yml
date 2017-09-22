@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    deploy:
+      replicas: 1
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - hs-stag-infra
+      - hcid-infra
+    volumes:
+      - ./conf:/etc/nginx/conf.d
+    secrets:
+      - site.crt
+      - site.key
+
+networks:
+  hs-stag-infra:
+    external: true
+  hcid-infra:
+    external: true
+
+secrets:
+  site.crt:
+    external: true
+  site.key:
+    external: true
